@@ -8,7 +8,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class HrmsTestCase {
+public class Dependency {
 
 	public static WebDriver driver;
 
@@ -24,12 +24,9 @@ public class HrmsTestCase {
 	@Test
 	public void validLogin() {
 		driver.findElement(By.id("txtUsername")).sendKeys("Admin");
-		;
 		driver.findElement(By.id("txtPassword")).sendKeys("Hum@nhrm123");
-		;
 		driver.findElement(By.id("btnLogin")).click();
 		String welcomeText = driver.findElement(By.id("welcome")).getText();
-
 		if (welcomeText.contains("Admin")) {
 			System.out.println("Admin is logged in. Test pass");
 
@@ -39,19 +36,7 @@ public class HrmsTestCase {
 
 	}
 
-	@Test
-	public void titleValidation() {
-		String expextedTitle = "Human Management System";
-		String actualTitle = driver.getTitle();
-		if (actualTitle.equals(expextedTitle)) {
-			System.out.println("Titles matched. Test Pass");
-		} else {
-			System.out.println("Titles do not match.Test fail");
-		}
-
-	}
-
-	@Test
+	@Test(dependsOnMethods = "validLogin")
 	public void invalidLogin() {
 		driver.findElement(By.id("txtUsername")).sendKeys("Admin");
 		driver.findElement(By.cssSelector("input#btnLogin")).click();
